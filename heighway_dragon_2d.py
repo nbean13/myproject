@@ -5,6 +5,24 @@ import numpy as np
 class HeighwayDragon(MovingCameraScene):
     def construct(self):
         # -----------
+        # init constants
+        # -----------
+        _side = 3
+        _stroke_width = 4
+        _cam_ratio = 1.2
+        _init_points = np.array([
+                [0, 0, 0],
+                [0, _side-1, 0],
+                [1, _side, 0],
+                [_side, _side, 0],
+            ],
+            dtype=np.float64)
+        _depth = 15
+        _hot_color = WHITE
+        _cool_color = BLUE
+        _points_len = []
+
+        # -----------
         # helper fxns
         # -----------
         def rotZ90( points, angle=PI/2, rc=np.array([0,0,0])):
@@ -33,24 +51,6 @@ class HeighwayDragon(MovingCameraScene):
 
             return np.concatenate((old_adj, new_adj), axis=0)
 
-
-        # -----------
-        # init constants
-        # -----------
-        _side = 3
-        _stroke_width = 4
-        _cam_ratio = 1.2
-        _init_points = np.array([
-                [0, 0, 0],
-                [0, _side-1, 0],
-                [1, _side, 0],
-                [_side, _side, 0],
-            ],
-            dtype=np.float64)
-        _depth = 15
-        _hot_color = WHITE
-        _cool_color = BLUE
-        _points_len = []
 
         # ----------
         # init shape
