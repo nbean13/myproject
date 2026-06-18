@@ -70,14 +70,16 @@ class HeighwayDragon(MovingCameraScene):
         # Begin constructor loop
         # ----------------------
         i = 0
+        t0 = 1
+        dt = 0.2
         while i < _depth:
-            group = VGroup()
-
+            _t = t0 + dt * i
             _points_len.append(len(points)-1)
 
             new_points = points.copy()[::-1]
             new_shape = VMobject(stroke_width=(i+1)*_stroke_width).set_points_as_corners(new_points).set_color(_hot_color)
 
+            group = VGroup()
             group.add(shape)
             group.add(new_shape)
 
@@ -98,14 +100,15 @@ class HeighwayDragon(MovingCameraScene):
             self.play(
                 self.camera.frame.animate
                 .move_to(cool_shape.get_center())
-                .set(**cam_kwargs)
+                .set(**cam_kwargs),
+                run_time=_t
                 )
 
             # -----------------
             # Play Construction
             # -----------------
-            self.play(Create(new_shape))
-            self.play(Rotate(new_shape, angle=PI/2, about_point=new_shape.get_start()))
+            self.play(Create(new_shape), run_time=_t)
+            self.play(Rotate(new_shape, angle=PI/2, about_point=new_shape.get_start()), run_time=_t)
             self.play(TransformMatchingShapes(group, cool_shape))
             self.clear()
             self.add(cool_shape)
